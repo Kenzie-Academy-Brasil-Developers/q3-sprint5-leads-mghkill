@@ -29,11 +29,8 @@ def create_leads():
 
         return jsonify(leads_value), HTTPStatus.CREATED
 
-    except TypeError:
-        return possible_key_error()
-
-    except KeyError:
-        return possible_key_error()
+    except (TypeError, KeyError):
+        return possible_key_error
         
     except IntegrityError:
         return {"error": "User already exists"}
@@ -45,8 +42,7 @@ def read_all_leads():
     session: Session = db.session
     query =  session.query(Leads)
     
-    output_leads = query.order_by(Leads.last_visit).all()
-
+    output_leads = query.order_by(Leads.last_visit.desc()).all()
 
 
     return jsonify(output_leads)
@@ -61,17 +57,15 @@ def update_all_leads():
     email = data["email"]
 
     session: Session = db.session
-
     
     output_lead = session.query(Leads).filter(Leads.email == email).first()   
 
 
     if not output_lead:
         return {"Error": "Email not found"}, HTTPStatus.NOT_FOUND
-    
-    # Transformar output_lead ou manipular em dicionario para pegar as keys last_visit e visits, e atualizar seus valores
-    
-    setattr(output_lead, "visits", 3)
+
+    output_lead.visits += 1
+    output_lead.last_visit = dt.now()
 
     session.commit()
 

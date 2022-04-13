@@ -16,13 +16,11 @@ def serialize_number(data):
 
     return False
 
-def possible_key_error(data):
-    return {
-            "Error": {"Message":"Incorrect format key"},
-            "Example of current key format": {
-                "name": "John Doe",
-                "email": "john@email.com",
-                "phone": "(41)90000-0000"
-            }
-        }, HTTPStatus.BAD_REQUEST
+possible_key_error = {"Error": {"Message":"Incorrect format key"},
+        "Example of current key format": {
+            "name": "John Doe",
+            "email": "john@email.com",
+            "phone": "(41)90000-0000"
+        }
+    }, HTTPStatus.BAD_REQUEST
     
