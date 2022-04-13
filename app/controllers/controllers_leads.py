@@ -44,7 +44,9 @@ def read_all_leads():
     
     output_leads = query.order_by(Leads.last_visit.desc()).all()
 
-
+    if not output_leads:
+        return {"Error": "Leads not found"}, HTTPStatus.NOT_FOUND
+        
     return jsonify(output_leads)
 
 
