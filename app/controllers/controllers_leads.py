@@ -42,11 +42,11 @@ def read_all_leads():
     session: Session = db.session
     query =  session.query(Leads)
     
-    output_leads = query.order_by(Leads.last_visit.desc()).all()
+    output_leads = query.order_by(Leads.visits.desc()).all()
 
     if not output_leads:
         return {"Error": "Leads not found"}, HTTPStatus.NOT_FOUND
-        
+
     return jsonify(output_leads)
 
 
